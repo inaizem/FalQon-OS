@@ -1,7 +1,7 @@
 # FalQon-OS
 A PQC privacy oriented OS for Developers
 
-### CPU architecture
+## CPU architecture
 Instruction set (x86-64, ARM64, RISC-V?)
 Your boot assembly, calling convention, and register names depend entirely on this.
 uname -m
@@ -23,14 +23,14 @@ lscpu | grep -E "^CPU\(s\)|Thread"
      Thread(s) per core:                      2
      CPU(s) scaling MHz:                      17%
 
-# CPU
+#### CPU
 CPU feature flags (SSE, AVX, RDRAND…)
 RDRAND is required for hardware entropy; AVX-512 unlocks faster PQ crypto routines.
 grep flags /proc/cpuinfo | head -1
     
       fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf tsc_known_freq pni pclmulqdq dtes64 monitor ds_cpl vmx smx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb ssbd ibrs ibpb stibp ibrs_enhanced tpr_shadow flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid rdseed adx smap clflushopt clwb intel_pt sha_ni xsaveopt xsavec xgetbv1 xsaves split_lock_detect user_shstk avx_vnni dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp hwp_pkg_req hfi vnmi umip pku ospke waitpkg gfni vaes vpclmulqdq rdpid movdiri movdir64b fsrm md_clear serialize arch_lbr ibt flush_l1d arch_capabilities
 
-# CPU
+#### CPU
 Memory
 Total RAM & layout (NUMA nodes?)
 Your physical memory allocator bitmap must match exactly what the bootloader reports.
@@ -51,12 +51,12 @@ dmidecode -t memory | grep -E "Size|Locator"
       Cache Size: None
       Logical Size: None
 
-# Memory
+## Memory
 Page size & paging levels (4-level vs 5-level)
 5-level paging (LA57) changes your virtual address space from 256 TiB to 128 PiB.
 grep -m1 la57 /proc/cpuinfo
  ###### None 
-# Memory
+#### Memory
 Firmware & boot
 BIOS vs UEFI
 UEFI needs a GPT disk + EFI partition; legacy BIOS uses MBR + INT 0x10. Completely different boot paths.
@@ -64,12 +64,12 @@ UEFI needs a GPT disk + EFI partition; legacy BIOS uses MBR + INT 0x10. Complete
 
  ###### UEFI
 
-# Firmware
+## Firmware
 Secure Boot state
 If enabled, your kernel image must be signed with a key enrolled in the firmware DB.
 mokutil --sb-state
 ###### SecureBoot disabled
-# Firmware
+#### Firmware
 ACPI tables presence
 ACPI provides the memory map, CPU topology, interrupt routing — your kernel parses these at boot.
 ls /sys/firmware/acpi/tables/
@@ -77,7 +77,7 @@ ls /sys/firmware/acpi/tables/
         APIC  BOOT  DBG2  DMAR  dynamic  FACS  HPET  MCFG  NHLT  SSDT1   SSDT11  SSDT13  SSDT15  SSDT2  SSDT4  SSDT6  SSDT8  TPM2   UEFI2
         BGRT  data  DBGP  DSDT  FACP     FPDT  LPIT  MSDM  PHAT  SSDT10  SSDT12  SSDT14  SSDT16  SSDT3  SSDT5  SSDT7  SSDT9  UEFI1  WSMT
 
-# Firmware
+#### Firmware
 Devices & I/O
 PCI device list (NIC, storage, GPU…)
 Each device needs a driver. Knowing the vendor:device IDs lets you look up the datasheet.
@@ -115,13 +115,13 @@ lspci -nn
               10000:e0:06.0 PCI bridge [0604]: Intel Corporation Raptor Lake PCIe 4.0 Graphics Port [8086:a74d]
               10000:e1:00.0 Non-Volatile memory controller [0108]: SK hynix Platinum P41/PC801 NVMe Solid State Drive [1c5c:1959]
 
-# Devices
+## Devices
 Storage controller type (AHCI, NVMe, virtio?)
 Completely different register interfaces. virtio-blk is the easiest target for QEMU development.
 lspci | grep -i "storage\|SATA\|NVMe"
               0000:00:0e.0 RAID bus controller: Intel Corporation Volume Management Device NVMe RAID Controller Intel Corporation
               10000:e1:00.0 Non-Volatile memory controller: SK hynix Platinum P41/PC801 NVMe Solid State Drive
-Devices
+#### Devices
 Security features
 TPM presence & version
 TPM 2.0 enables measured boot and remote attestation — key for a quantum-resistant trust chain.
