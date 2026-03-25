@@ -119,6 +119,7 @@ lspci -nn
 Storage controller type (AHCI, NVMe, virtio?)
 Completely different register interfaces. virtio-blk is the easiest target for QEMU development.
 lspci | grep -i "storage\|SATA\|NVMe"
+
               0000:00:0e.0 RAID bus controller: Intel Corporation Volume Management Device NVMe RAID Controller Intel Corporation
               10000:e1:00.0 Non-Volatile memory controller: SK hynix Platinum P41/PC801 NVMe Solid State Drive
 #### Devices
